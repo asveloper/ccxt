@@ -145,7 +145,8 @@ const exchanges = {
     'yobit':                   require ('./js/yobit.js'),
     'yunbi':                   require ('./js/yunbi.js'),
     'zaif':                    require ('./js/zaif.js'),
-    'zb':                      require ('./js/zb.js'),    
+    'zb':                      require ('./js/zb.js'),
+    'deribit':                 require('./js/deribit.js'),
 }
 
 //-----------------------------------------------------------------------------

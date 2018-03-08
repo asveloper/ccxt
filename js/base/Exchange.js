@@ -352,6 +352,7 @@ module.exports = class Exchange {
 
                     let partial = async params => this[methodName] (path, type, uppercaseMethod, params || {})
 
+
                     this[camelcase]  = partial
                     this[underscore] = partial
                 }
