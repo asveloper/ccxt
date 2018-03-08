@@ -68,9 +68,61 @@ module.exports = class deribit extends Exchange {
     });
   }
 
-  async fetchMarkets() {
-    let markets = await this.publicGetGetinstruments ();
-    console.log(markets)
+  async getInstruments(params={}) {
+    let instruments =  await this.publicGetGetinstruments (params);
+    return instruments;
   }
+
+  async getIndex (params={}) {
+    let  indexs =  await this.publicGetIndex (params);
+    return indexs;
+  }
+
+
+  async getcurrencies (params={}) {
+    let curr = await this.publicGetGetcurrencies (params);
+    return curr;
+  }
+
+  async getorderbook(params={}) {
+    let orderBook = await this.publicGetGetorderbook (params);
+    return orderBook;
+  }
+
+  async getlasttrades (params) {
+    let trades = await this.publicGetGetlasttrades (params);
+    return trades;
+  }
+
+  async getsummary (params={}) {
+    let summary = await this.publicGetGetsummary (params);
+    return summary
+  }
+
+  async getStatistics (params={}) {
+    let stat = await this.publicGetStats (params);
+    return stat;
+  }
+
+  sign (path, api = 'public', method = 'GET', params = {}, headers = undefined, body = undefined) {
+        let url = this.urls['api'][api];
+
+        if (api === 'private') {
+            this.checkRequiredCredentials ();
+            let nonce = this.nonce ().toString ();
+            let query = this.keysort (this.extend ({
+                'a': path,
+                'apikey': this.apiKey,
+                'nonce': nonce,
+            }, params));
+            url += '?' + this.urlencode (query);
+            headers = { 'apisign': this.hmac (this.encode (url), this.encode (this.secret), 'sha512') };
+        } else if (api === 'public' && Object.keys(params).length > 0) {
+            url += '/' + path + '?'+ this.urlencode (this.extend (params));
+        } else {
+            url += '/' + this.implodeParams (path, params);
+        }
+        return { 'url': url, 'method': method, 'body': body, 'headers': headers };
+    }
 
 }
