@@ -3,7 +3,8 @@
 //  ---------------------------------------------------------------------------
 
 const Exchange = require ('./base/Exchange');
-const { ExchangeError } = require ('./base/errors');
+const { AuthenticationError, ExchangeError, NotSupported } = require ('./base/errors');
+
 
 //  ---------------------------------------------------------------------------
 
@@ -14,6 +15,11 @@ module.exports = class deribit extends Exchange {
       'name': 'Deribit',
       'countries': 'US',
       'rateLimit': 1000,
+      'has': {
+          'CORS': false,
+          'fetchTickers': true,
+          'fetchOrderBooks': true,
+      },
       'urls': {
           'logo': 'https://user-images.githubusercontent.com/1294454/30597177-ea800172-9d5e-11e7-804c-b9d4fa9b56b0.jpg',
           'api': {
